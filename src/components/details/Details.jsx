@@ -1,16 +1,18 @@
 import { useState, useEffect, useRef } from "react";
+import useJsonFetch from "../../hooks/usejsonfetch/useJsonFetch";
 import "./Details.css";
 
 function Details(props) {
   const { info } = props;
   const [data, setData] = new useState();
   const [loading, setLoading] = new useState(true);
-
-  const idRef = useRef();
+  //const idRef = useRef();
+  //idRef.current = info?.id;
 
   useEffect(() => {
     const fetchData = async () => {
-      idRef.current = info?.id;
+      //idRef.current = info?.id;
+      /*
       setLoading(true);
       try {
         const response = await fetch(`${import.meta.env.VITE_REACT_NOTES_URL}/${info.id}.json`);
@@ -22,14 +24,19 @@ function Details(props) {
       } finally {
         setLoading(false);
       }
+      */
+      
+      const [{ data: d, isLoading, hasError }] = useJsonFetch(`${import.meta.env.VITE_REACT_NOTES_URL}${info.id}.json`);
+      setData(d);
+      setLoading(isLoading);
     };
 
-    if (idRef.current !== info.id) {
+  //  if (idRef.current !== info.id) {
       //setLoading(true);
       //const timerId = setTimeout(fetchData, 300);
       //return () => clearTimeout(timerId);
       fetchData();
-    }
+  //  }
   }, [info]);
 
   return (

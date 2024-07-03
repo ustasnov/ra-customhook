@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
-export default function useJsonFetch(url, opts) {
-  const [data, setData] = useState(opts.initialData);
+export default function useJsonFetch(url, opts = null) {
+  const [data, setData] = useState();
   const [isLoading, setLoading] = useState(false);
   const [hasError, setError] = useState(null);
 
@@ -9,7 +9,7 @@ export default function useJsonFetch(url, opts) {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(url);
+        const response = await fetch(url, opts);
         if (!response.ok) { throw new Error(response.statusText); }
         const jsonData = await response.json();
         setData(jsonData);
