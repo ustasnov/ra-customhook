@@ -1,34 +1,16 @@
 import { useState, useEffect } from "react";
+import useJsonFetch from "../../hooks/usejsonfetch/useJsonFetch";
 import "./List.css";
 
 function List(props) {
-  const [data, setState] = new useState([]);
-  const [loading, setLoading] = new useState(true);
+  const [{ data, isLoading, hasError }] = useJsonFetch(`${import.meta.env.VITE_REACT_NOTES_URL}/users.json`, { initialData: [] });
   const { onClickHandler } = props;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_REACT_NOTES_URL}/users.json`);
-        if (!response.ok) { throw new Error(response.statusText); }
-        const users = await response.json();
-        setState(users);
-      } catch (e) {
-        console.error(`Ошибка доступа к серверу: ${e.message}`);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    setLoading(true);
-    const timerId = setTimeout(fetchData, 300);
-    return () => clearTimeout(timerId);
-  }, []);
 
   return (
     <div className="list-container">
-      {loading && <div>Loading...</div>}
-      {!loading &&
+      {hasError && <div>hasError</div>}
+      {isLoading && !hasError && <div>Loading...</div>}
+      {!isLoading && !hasError &&
         <ul className="list">
           {data.map((val) => <li id={val.id} className='list-item' key={val.id} onClick={onClickHandler}>{val.name}</li>)}
         </ul>

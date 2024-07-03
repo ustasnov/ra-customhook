@@ -11,6 +11,7 @@ function Details(props) {
   useEffect(() => {
     const fetchData = async () => {
       idRef.current = info?.id;
+      setLoading(true);
       try {
         const response = await fetch(`${import.meta.env.VITE_REACT_NOTES_URL}/${info.id}.json`);
         if (!response.ok) { throw new Error(response.statusText); }
@@ -24,9 +25,10 @@ function Details(props) {
     };
 
     if (idRef.current !== info.id) {
-      setLoading(true);
-      const timerId = setTimeout(fetchData, 300);
-      return () => clearTimeout(timerId);
+      //setLoading(true);
+      //const timerId = setTimeout(fetchData, 300);
+      //return () => clearTimeout(timerId);
+      fetchData();
     }
   }, [info]);
 
