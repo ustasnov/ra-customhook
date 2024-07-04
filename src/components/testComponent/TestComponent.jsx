@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import useJsonFetch from "../../hooks/usejsonfetch/useJsonFetch";
 
 function TestComponent(props) {
@@ -10,3 +11,8 @@ function TestComponent(props) {
 }
 
 export default TestComponent
+
+Details.propTypes = {
+  url: PropTypes.string,
+  opts: PropTypes.object
+}
