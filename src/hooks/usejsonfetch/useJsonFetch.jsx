@@ -9,15 +9,20 @@ export default function useJsonFetch(url, opts = null) {
     const fetchData = async () => {
       setLoading(true);
       setError(null);
+      let jsonData = "";
 
       try {
-        const response = await fetch(url, opts);
+        const response = await fetch(url, {});
 
         if (!response.ok) {
-          throw new Error(`An error occurred: ${response.statusText}`);
+          if (response.status === 500) {
+            jsonData = await response.json();
+            throw new Error(jsonData.status);
+          } else {
+            throw new Error(`Error status: ${response.status}`);
+          }
         }
-
-        const jsonData = await response.json();
+        jsonData = await response.json();
         setData(jsonData);
       } catch (error) {
         setError(error.message);

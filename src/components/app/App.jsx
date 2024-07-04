@@ -1,30 +1,13 @@
-import { useState } from "react";
-import List from "../list/List"
-import Details from "../details/Details";
+import TestComponent from "../testComponent/TestComponent";
 import "./App.css";
 
 function App() {
-  const [info, setInfo] = new useState();
-
-  const onClickHandler = (ev) => {
-    ev.preventDefault();
-    const listEl = ev.currentTarget.closest(".list");
-    const listItem = listEl.querySelector(".active");
-    if (listItem && listItem !== ev.currentTarget) {
-      listItem.classList.remove("active");
-    }
-    ev.currentTarget.classList.add("active");
-    const userInfo = { id: ev.currentTarget.id, name: ev.currentTarget.textContent }
-    setInfo(userInfo);
-  }
-
   return (
-    <div className="container">
-      <List onClickHandler={onClickHandler}></List>
-      <div className="details-container">
-        {info && <Details info={info}></Details>}
-      </div>
-    </div>
+    <>
+      <TestComponent url={"http://localhost:7070/data"}></TestComponent>
+      <TestComponent url={"http://localhost:7070/error"}></TestComponent>
+      <TestComponent url={"http://localhost:7070/loading"}></TestComponent>
+    </>
   )
 }
 
