@@ -7,6 +7,7 @@ function App() {
   const [info, setInfo] = new useState();
 
   const onClickHandler = (ev) => {
+    ev.preventDefault();
     const listEl = ev.currentTarget.closest(".list");
     const listItem = listEl.querySelector(".active");
     if (listItem && listItem !== ev.currentTarget) {

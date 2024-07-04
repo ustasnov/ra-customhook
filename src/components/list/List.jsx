@@ -3,16 +3,22 @@ import useJsonFetch from "../../hooks/usejsonfetch/useJsonFetch";
 import "./List.css";
 
 function List(props) {
-  const [{ data, isLoading, hasError }] = useJsonFetch(`${import.meta.env.VITE_REACT_NOTES_URL}/users.json`);
-  const { onClickHandler } = props;
+  const { data, loading, error } = useJsonFetch(`${import.meta.env.VITE_REACT_NOTES_URL}/users.json`) // Utilizing useFetch
+
+  if (loading) return (
+    <div className="list-container">
+      <div>Loading...</div>
+    </div>);
+  if (error) return (
+    <div className="list-container">
+      <div>Error: {error}</div>
+    </div>);
 
   return (
     <div className="list-container">
-      {hasError && <div>hasError</div>}
-      {isLoading && !hasError && <div>Loading...</div>}
-      {!isLoading && !hasError && data &&
+      {data &&
         <ul className="list">
-          {data.map((val) => <li id={val.id} className='list-item' key={val.id} onClick={onClickHandler}>{val.name}</li>)}
+          {data.map((val) => <li id={val.id} className='list-item' key={val.id} onClick={props.onClickHandler}>{val.name}</li>)}
         </ul>
       }
     </div>
